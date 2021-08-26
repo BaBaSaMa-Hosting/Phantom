@@ -1,4 +1,3 @@
-const fs = require('../node_modules/fs');
 const path = require('../node_modules/path');
 const phantom = require('../node_modules/phantom');
 const fastify = require('../node_modules/fastify') ({
