@@ -1,6 +1,7 @@
-const path = require('../node_modules/path');
-const phantom = require('../node_modules/phantom');
-const fastify = require('../node_modules/fastify') ({
+import path from 'path';
+import { create } from 'phantom';
+import Fastify from 'fastify';
+const fastify = Fastify ({
     logger: true
 });
 
@@ -12,7 +13,7 @@ fastify.get('/', async (request, reply) => {
         if (!link.includes("https://") && !link.includes("http://")) {
             link = `https://${link}`
         }
-        const instance = await phantom.create();
+        const instance = await create();
         const page = await instance.createPage();
         await page.on("onResourceRequested", (requestData) => {
             console.info('Requesting', requestData.url);
@@ -29,8 +30,8 @@ fastify.get('/', async (request, reply) => {
 });
 
 const start = async() => {
-    await fastify.register(require('../node_modules/middie'))
-    fastify.use(require('../node_modules/cors')())
+    await fastify.register(require('middie'))
+    fastify.use(require('cors')())
 
     await fastify.listen(3002, '0.0.0.0')
     .then((address) => console.log(`server is listening on ${address}`))
