@@ -1,7 +1,5 @@
-import path from 'path';
-import { create } from 'phantom';
-import Fastify from 'fastify';
-const fastify = Fastify ({
+const phantom = require('phantom');
+const fastify = require('fastify') ({
     logger: true
 });
 
@@ -13,7 +11,7 @@ fastify.get('/', async (request, reply) => {
         if (!link.includes("https://") && !link.includes("http://")) {
             link = `https://${link}`
         }
-        const instance = await create();
+        const instance = await phantom.create();
         const page = await instance.createPage();
         await page.on("onResourceRequested", (requestData) => {
             console.info('Requesting', requestData.url);
