@@ -12,7 +12,7 @@ fastify.get('/', async (request, reply) => {
             link = `https://${link}`
 
         let now = + new Date();
-        exec(`phantomjs /var/www/rasterize.js ${link} /media/sda2/phantomjs/${now}.png`, (error, stdout, stderr) => {
+        exec(`sudo phantomjs ./rasterize.js ${link} /media/sda2/phantomjs/${now}.png`, (error, stdout, stderr) => {
             console.log(stdout);
             console.log(stderr);
             if (error !== null) 
