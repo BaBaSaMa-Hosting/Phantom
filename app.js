@@ -1,4 +1,4 @@
-const phantom = require('phantom');
+const { exec } = require('child_process');
 const fastify = require('fastify') ({
     logger: true
 });
@@ -8,22 +8,16 @@ fastify.get('/', async (request, reply) => {
     if (link === null || link === undefined || link.trim() === "") {
         reply.send("Please pass in a header link")
     } else{
-        if (!link.includes("https://") && !link.includes("http://")) {
+        if (!link.includes("https://") && !link.includes("http://"))
             link = `https://${link}`
-        }
-        const instance = await phantom.create();
-        const page = await instance.createPage();
-        await page.on("onResourceRequested", (requestData) => {
-            console.info('Requesting', requestData.url);
+
+        let now = + new Date();
+        exec(`phantomjs /var/www/rasterize.js ${link} /media/sda2/phantomjs/${now}.png`, (error, stdout, stderr) => {
+            console.log(stdout);
+            console.log(stderr);
+            if (error !== null) 
+                console.log(`exec error: ${error}`);
         });
-
-        const status = await page.open(link);
-        reply.headers("phantom-status", status);
-
-        const content = await page.property('content');
-        reply.send(content);
-
-        instance.exit();
     }
 });
 
