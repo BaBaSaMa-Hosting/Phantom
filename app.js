@@ -15,8 +15,11 @@ fastify.get('/', async (request, reply) => {
         exec(`sudo phantomjs ./rasterize.js ${link} /media/sda2/phantomjs/${now}.png`, (error, stdout, stderr) => {
             console.log(stdout);
             console.log(stderr);
-            if (error !== null) 
+            if (error !== null) {
                 console.log(`exec error: ${error}`);
+                reply.send(error)
+            }
+            reply.send(stdout);
         });
     }
 });
