@@ -40,8 +40,8 @@ if (system.args.length < 3 || system.args.length > 5) {
             window.setTimeout(function () {
                 page.render(output);
                 phantom.exit();
-                console.log("success");
             }, 200);
         }
+        console.log("success");
     });
 }
