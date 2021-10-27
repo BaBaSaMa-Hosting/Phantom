@@ -32,7 +32,7 @@ if (system.args.length < 3 || system.args.length > 5) {
     if (system.args.length > 4) {
         page.zoomFactor = system.args[4];
     }
-    page.open(address, function (status) {
+    page.open(address, function(status) {
         if (status !== 'success') {
             console.log('Unable to load the address!');
             phantom.exit(1);
@@ -42,7 +42,7 @@ if (system.args.length < 3 || system.args.length > 5) {
                 phantom.exit();
             }, 200);
         }
-        console.log("success");
-        return;
+        console.log(status);
+        process.exit();
     });
 }
